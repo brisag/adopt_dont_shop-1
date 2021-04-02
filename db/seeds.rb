@@ -14,10 +14,10 @@
 @pet2 = @shelter2.pets.create!(name: 'Joey', breed: 'dog', age: 3, adoptable: true)
 @pet3 = @shelter1.pets.create!(name: 'Mr. Dog', breed: 'cat', age: 10, adoptable: true)
 
-@applicant1 = Application.create!(name: 'Brisa', address: '123 10th ave', city: 'Denver', state: 'CO', zip_code: 80205)
-@applicant2 = Application.create!(name: 'Chris', address: '321 Blake st', city: 'Denver', state: 'CO', zip_code: 80204)
-@applicant3 = Application.create!(name: 'Amber', address: '1000 Broadway st', city: 'Eerie', state: 'CO', zip_code: 80041)
-@applicant4 = Application.create!(name: 'Levi', address: '1610 wewatta wy', city: 'Berthoud', state: 'CO', zip_code: 80491)
+@applicant1 = Application.create!(name: 'Brisa', address: '123 10th ave', city: 'Denver', state: 'CO', zip_code: 80205, description: "i need cuddly pets")
+@applicant2 = Application.create!(name: 'John', address: '321 Blake st', city: 'Denver', state: 'CO', zip_code: 80204, description: "i need cute pets")
+@applicant3 = Application.create!(name: 'Max', address: '1000 Broadway st', city: 'Eerie', state: 'CO', zip_code: 80041, description: "i need funny pets")
+@applicant4 = Application.create!(name: 'Xotchil', address: '1610 wewatta wy', city: 'Berthoud', state: 'CO', zip_code: 80491, description: "i need smart pets")
 
 PetApplication.create!(pet: @pet1, application: @applicant1)
 PetApplication.create!(pet: @pet1, application: @applicant2)

@@ -4,4 +4,7 @@ class Application < ApplicationRecord
 
   validates_presence_of :name, :address, :city, :state, :zip_code
 
+  enum status: ['In Progress', 'Pending', 'Approved', 'Rejected']
+
+
 end
