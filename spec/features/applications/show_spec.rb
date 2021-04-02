@@ -17,7 +17,6 @@ RSpec.describe 'As a visitor' do
         expect(page).to have_content(@applicant1.name)
         expect(page).to have_content(@applicant1.address)
         expect(page).to have_content(@applicant1.description)
-        expect(page).to have_link("Mr. Dog")
         expect(page).to have_content('In Progress')
       end
     end
