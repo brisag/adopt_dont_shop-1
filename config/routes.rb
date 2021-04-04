@@ -24,7 +24,14 @@ Rails.application.routes.draw do
   # patch '/applications/:id', to: 'applications#update'
 
   resources :applications
-  resources :pet_applications, except: [:index]
+  resources :pet_applications, only: [:create]
+
+  namespace :admin do
+    resources :shelters
+  end
+
+
+
 
 
   get '/veterinary_offices', to: 'veterinary_offices#index'
