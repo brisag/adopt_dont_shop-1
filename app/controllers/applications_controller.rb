@@ -26,7 +26,7 @@ class ApplicationsController < ApplicationController
   def show
     @application = Application.find(params[:id])
     if params[:search]
-      @pets = Pet.search(params[:search])
+      @pets = Pet.partial_search(params[:search])
     end
   end
 
