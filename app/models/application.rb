@@ -7,4 +7,5 @@ class Application < ApplicationRecord
   enum status: ['In Progress', 'Pending', 'Approved', 'Rejected']
 
 
+
 end
