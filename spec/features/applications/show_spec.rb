@@ -12,12 +12,24 @@ RSpec.describe 'As a visitor' do
     end
 
     it "shows the applicant and attributes, description, and app status" do
-      save_and_open_page
       within("#application-#{@applicant1.id}") do
         expect(page).to have_content(@applicant1.name)
         expect(page).to have_content(@applicant1.address)
         expect(page).to have_content(@applicant1.description)
         expect(page).to have_content('In Progress')
+      end
+    end
+
+    it "I see a section and search that says add pet to this application" do
+      expect(page).to have_content('Add a Pet to this Application')
+
+
+      within(".add-pet-app") do
+        fill_in :search, with: 'Mr. Dog'
+        click_button('Search')
+        expect(current_path).to eq("/applications/#{@applicant1.id}")
+        save_and_open_page
+        expect(page).to have_content(@pet3.name)
       end
     end
   end
