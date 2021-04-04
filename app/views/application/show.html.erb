@@ -4,10 +4,13 @@
   <%= "#{@application.city}, #{@application.state} #{@application.zip_code}" %></h4></p>
   <p><h4>Adoption Request Description</h4> <%= @application.description %></p>
   <p><h4>Application Status</h4> <%= @application.status %></p>
+  <p><% @application.pets.each do |pet| %></p>
+  <%= link_to "#{pet.name}", "/pets/#{pet.id}" %>
+<% end %>
 </section>
 
 
-    <% if @application.status == "In Progress" %>
+  <% if @application.status == "In Progress" %>
   <section class="add-pet-app">
     <hr><h3>Add a Pet to this Application</h3>
     <%= form_with url: "/applications/#{@application.id}", method: :get, local: true do |form| %>
@@ -19,7 +22,18 @@
     <% if @pets %>
       <% @pets.each do |pet| %>
         <%= pet.name %>
-        <%= button_to "Adopt this Pet", "/applications/#{@application.id}?adopt_pet_id=#{pet.id}" %>
+        <%= button_to("Adopt this Pet", "/pet_applications", method: :post, params: {pet_id: pet.id, application_id: @application.id}) %>
       <% end %>
     <% end %>
   </section>
+
+  <% if !@application.pets.empty? %>
+  <section class="submit-app">
+    <%= form_with url: "/applications/#{@application.id}", method: :patch, local: true do |form| %>
+      <%= form.label 'I make a good owner for these pet(s) because:' %>
+      <p><%= form.text_area :description %></p>
+      <%= form.hidden_field :status, value: 'Pending' %>
+      <%= form.submit "Submit Application" %>
+    <% end %>
+  </section>
+<% end %>
