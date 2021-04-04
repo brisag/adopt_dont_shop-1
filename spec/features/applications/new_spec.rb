@@ -21,7 +21,6 @@ RSpec.describe 'As a visitor' do
         expect(page).to have_content(Application.last.address)
         expect(page).to have_content(Application.last.city)
         expect(page).to have_content(Application.last.state)
-        expect(page).to have_content(Application.last.description)
         expect(page).to have_content('In Progress')
       end
     end

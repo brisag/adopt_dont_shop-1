@@ -17,12 +17,14 @@ Rails.application.routes.draw do
   delete '/pets/:id', to: 'pets#destroy'
 
   # applicants
-  get '/applications/new', to: 'applications#new'
-  post '/applications', to: 'applications#create'
-  get '/applications/:id', to: 'applications#show'
+  # get '/applications/new', to: 'applications#new'
+  # post '/applications', to: 'applications#create'
+  # get '/applications/:id', to: 'applications#show'
+  # get '/applications/:id', to: 'applications#show'
+  # patch '/applications/:id', to: 'applications#update'
 
-
-
+  resources :applications
+  resources :pet_applications, except: [:index]
 
 
   get '/veterinary_offices', to: 'veterinary_offices#index'
