@@ -6,6 +6,14 @@ class Application < ApplicationRecord
 
   enum status: ['In Progress', 'Pending', 'Approved', 'Rejected']
 
-
-
+  def approve
+    if pet_applications.all? {|pet| pet.status=="Approved"}
+      self[:status] = "Approved"
+      pets.each {|pet| pet.approve_adoption}
+      save
+    elsif pet_applications.any? {|pet| pet.status=="Rejected"}
+      self[:status] = "Rejected"
+      save
+    end
+  end
 end

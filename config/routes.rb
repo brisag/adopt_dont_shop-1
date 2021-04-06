@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   delete '/shelters/:id', to: 'shelters#destroy'
 
   get '/pets', to: 'pets#index'
-  get '/pets/:id', to: 'pets#show'
+  get '/pets/:id', to: 'pets#show', as: :pet
   get '/pets/:id/edit', to: 'pets#edit'
   patch '/pets/:id', to: 'pets#update'
   delete '/pets/:id', to: 'pets#destroy'
@@ -28,6 +28,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :shelters
+    resources :applications
   end
 
 

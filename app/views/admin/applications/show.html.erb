@@ -1,0 +1,25 @@
+<h1>Application</h1>
+<section id="admin-applicant-<%= @application.id %>">
+<h4>Status: <%= @application.status %></h4>
+<h4>Applicant name: <%= @application.name %></h4>
+<p>Applicant address: <br>
+  <%= "#{@application.address}" %><br>
+  <%= "#{@application.city}, #{@application.state} #{@application.zip_code}" %></p>
+
+<%='display:none' if @application.status=="In Progress"%>
+  <h4>Why I would make a good home for this pet or pets:</h4>
+  <p><%= @application.description %></p>
+
+
+  <h3>Requested Pet(s)</h3>
+  <ul><% @application.pet_applications.each do |pet_application| %>
+    <section id="pet-<%= pet_application.pet_id %>">
+      <%= link_to pet_application.pet_name, pet_path(pet_application.pet_id) %>
+      <% if pet_application.application_status == "Pending"%>
+        <%= pet_application.application_status %>
+          <%= button_to "Approve", admin_application_path(@application, pet: pet_application.pet_id, application_status: :approve), method: :patch %>
+          <%= button_to "Reject", admin_application_path(@application, pet: pet_application.pet_id, application_status: :reject), method: :patch %>
+      <% end %>
+    </section>
+  <% end %></ul>
+</section>
