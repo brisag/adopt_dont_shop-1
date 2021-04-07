@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 2021_04_02_020027) do
     t.string "state"
     t.integer "zip_code"
     t.string "description"
-    t.string "status", default: "In Progress"
+    t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 2021_04_02_020027) do
   create_table "pet_applications", force: :cascade do |t|
     t.bigint "pet_id"
     t.bigint "application_id"
-    t.string "application_status", default: "Pending"
+    t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["application_id"], name: "index_pet_applications_on_application_id"
