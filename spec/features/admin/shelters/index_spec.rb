@@ -56,5 +56,13 @@ RSpec.describe 'As a visitor' do
       end
       expect(current_path).to eq("/admin/shelters/#{@shelter_1.id}")
     end
+
+    it 'I see a section for statistics' do
+      visit "/admin/shelters/#{@shelter_1.id}"
+
+      within(".statistics") do
+        expect(page).to have_content('Statistics')
+      end
+    end
   end
 end
