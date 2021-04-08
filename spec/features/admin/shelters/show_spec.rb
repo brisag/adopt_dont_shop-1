@@ -29,7 +29,13 @@ RSpec.describe 'As a visitor' do
 
   it "shows the shelter name and address" do
     expect(page).to have_content(@shelter2.name)
-      expect(page).to have_content(@shelter2.city)
+    expect(page).to have_content(@shelter2.city)
+  end
+
+  it 'I see a section for statistics' do
+
+    within(".section-stats") do
+      expect(page).to have_content('Statistics')
     end
   end
 
@@ -50,6 +56,26 @@ RSpec.describe 'As a visitor' do
   it 'I see the number of pets that have been adopted from that shelter' do
     within("#section-stats") do
       expect(page).to have_content(@shelter2.adopted_pet_count)
+    end
+  end
+
+  it "I see a section title 'Action Required' with all apps not marked approved or rejected" do
+    within(".section-action-required") do
+      expect(page).to have_content('Action Required')
+    end
+  end
+
+  it " I see a link to the admin application show page where I can accept or reject the pet" do
+
+    within(".section-action-required") do
+      expect(page).to have_content(@pet1.name)
+      expect(page).not_to have_content(@pet2.name)
+      expect(page).to have_link('Go to Application')
+      click_link('Go to Application')
+    end
+      expect(current_path).to eq("/admin/applications/#{@applicant1.id}")
+      expect(page).to have_button('Approve')
+      expect(page).to have_button('Reject')
     end
   end
 end
