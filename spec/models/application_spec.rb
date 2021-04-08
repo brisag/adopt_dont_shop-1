@@ -28,6 +28,7 @@ describe Application, type: :model do
     it {should have_many(:pets).through(:pet_applications)}
 
   end
+
   describe 'validations' do
     it {should validate_presence_of :name}
     it {should validate_presence_of :address}
@@ -37,11 +38,12 @@ describe Application, type: :model do
   end
 
 
-  describe 'instance methods' do
-    it '#street_address' do
-      street_address = "#{@applicant1.address} #{@applicant1.city}, #{@applicant1.state}. #{@applicant1.zip_code}"
+    describe 'instance methods' do
+      it '#street_address' do
+        street_address = "#{@applicant1.address} #{@applicant1.city}, #{@applicant1.state}. #{@applicant1.zip_code}"
 
-      expect(@applicant1.street_address).to eq(street_address)
+        expect(@applicant1.street_address).to eq(street_address)
+      end
     end
   end
 end

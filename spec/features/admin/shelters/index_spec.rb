@@ -35,7 +35,7 @@ RSpec.describe 'As a visitor' do
 
     it "shows section for names of Shelter's with Pending Applications" do
       within("#pending-apps") do
-        save_and_open_page
+        # save_and_open_page
         expect(page).to have_content("Shelters with Pending Applications")
         expect(page).to have_content(@shelter_1.name)
         expect(page).to have_content(@shelter_2.name)

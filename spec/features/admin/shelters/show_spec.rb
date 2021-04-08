@@ -35,7 +35,7 @@ RSpec.describe 'As a visitor' do
   it 'I see a section for statistics' do
 
     within(".section-stats") do
-      expect(page).to have_content('Statistics')
+      expect(page).to have_content('Statistics:')
     end
   end
 
@@ -46,7 +46,7 @@ RSpec.describe 'As a visitor' do
   end
 
   it 'I see the number of pets at that shelter that are adoptable' do
-    save_and_open_page
+    # save_and_open_page
 
     within("#section-stats") do
       expect(page).to have_content(@shelter2.adoptable_pet_count)
