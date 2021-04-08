@@ -1,39 +1,20 @@
 <section id="application-<%= @application.id %>">
-  <h1><%= @application.name %></h1>
-  <h3>Status</h3> <%= @application.status %><br>
-  <h3>Address:</h3> <%= @application.street_address %><br>
-  <h3>Adopt Request Description: </h3> <%= @application.description %><br>
+  <%= render './layouts/shared/application_show' %>
   <h3>Pets:</h3><br>
-  <% @application.pets.each do |pet| %>
-    <%= link_to pet.name, pet_path(pet) %>
-  <% end %>
+  <%= render partial: "show_pets", locals: {application: @application} %>
 </section>
 
 <% if @application.status = "In Progress"%>
   <section class="add-pet-app">
-  <h3>Add a Pet(s) to this Application</h3>
-  <%= form_with url: "/applications/#{@application.id}", method: :get, local: true do |form| %>
-    <%= form.text_field :search %>
-    <%= form.submit "Search" %>
-    <% end %>
+  <%= render partial: "add_pets", locals: {application_id: @application.id} %>
 
   <% if @pets %>
-    <% @pets.each do |pet| %>
-      <%= pet.name %>
-      <%= button_to("Adopt this Pet", "/pet_applications", method: :post, params: {pet_id: pet.id, application_id: @application.id}) %>
-    <% end %>
+  <%= render partial: "adopt_pets", locals: {pets: @pets, application_id: @application.id} %>
   <% end %>
 </section>
 
 
 <% if !@application.pets.empty? %>
-<section class="submit-app">
-  <%= form_with url: "/applications/#{@application.id}", method: :patch, local: true do |form| %>
-    <%= form.label 'I make a good owner for these pet(s) because:' %>
-      <p><%= form.text_area :description %></p>
-      <%= form.hidden_field :status, value: 'Pending' %>
-      <%= form.submit "Submit Application" %>
-    <% end %>
-  </section>
+<%= render partial: "submit", locals: {application_id: @application.id} %>
   <% end %>
 <% end %>

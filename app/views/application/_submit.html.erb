@@ -1,0 +1,8 @@
+<section class="submit-app">
+  <%= form_with url: "/applications/#{@application.id}", method: :patch, local: true do |form| %>
+    <%= form.label 'I make a good owner for these pet(s) because:' %>
+      <p><%= form.text_area :description %></p>
+      <%= form.hidden_field :status, value: 'Pending' %>
+      <%= form.submit "Submit Application" %>
+    <% end %>
+  </section>
