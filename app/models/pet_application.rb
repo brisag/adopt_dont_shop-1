@@ -5,10 +5,6 @@ class PetApplication < ApplicationRecord
 
   # enum status: [:approved, :rejected]
 
-  def pet_name
-    pet.name
-  end
-
   def reject
     self[:status] = "Reject"
     save
@@ -18,19 +14,18 @@ class PetApplication < ApplicationRecord
     self[:status] = "Approve"
     save
   end
+
+
+  def approvable?
+    pet.adoptable && approved_apps(id, pet.id)
+    # pet.adoptable && separately_approved(id, pet.id)
+
+  end
+
+  def approved_apps(id, pet_id)
+    PetApplication.joins(:application)
+    .where("applications.status='Pending' AND pet_applications.status='Approved'")
+    .where("pet_applications.pet_id = ?", pet_id)
+    .where("pet_applications.id <> ?", id)
+  end
 end
-
-
-
-  # def self.approve_or_reject(application, params)
-  #   if params[:status] == "Approved"
-  #     find_application_pet(params[:application_id], params[:pet_id]).update(status: "Approved")
-  #   if self.all_pets_approved?
-  #     application.approval
-  #   end
-  # elsif params[:status] == "Rejected"
-  #   find_application_pet(params[:application_id], params[:pet_id]).update(status: "Rejected")
-  #   if self.any_pets_rejected?
-  #     application.rejection
-  #   end
-  # end

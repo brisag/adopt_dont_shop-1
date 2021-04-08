@@ -4,11 +4,13 @@ class Application < ApplicationRecord
 
   validates_presence_of :name, :address, :city, :state, :zip_code
 
-  enum status: ['In Progress', 'Pending', 'Approved', 'Rejected']
+  # enum status: [:in_progress, :pending, :approved, :rejected]
+  scope :pending,-> { where(status: "Pending")}
+
 
   def approve
-    if pet_applications.all? {|pet| pet.status=="Approved"}
-      self[:status] = "Approved"
+    if pet_applications.all? {|pet| pet.status=="Approve"}
+      self[:status] = "Approve"
       pets.each {|pet| pet.approve_adoption}
       save
     elsif pet_applications.any? {|pet| pet.status=="Rejected"}
@@ -16,4 +18,18 @@ class Application < ApplicationRecord
       save
     end
   end
+
+  def self.already_adopted
+    pending.where("pet_applications.status='approved'").exists?
+  end
 end
+
+  #
+  # def all_pets_approved
+  #   pet_applications.all? {|app_pet| app_pet.status=="approved"}
+  # end
+  #
+  # def any_pets_rejected
+  #   pet_applications.any? {|app_pet| app_pet.status=="rejected"}
+  # end
+  #
