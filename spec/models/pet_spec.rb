@@ -14,16 +14,17 @@ RSpec.describe Pet, type: :model do
   end
 
   before(:each) do
-    @shelter_1 = Shelter.create(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9)
-    @pet_1 = @shelter_1.pets.create(name: 'Mr. Pirate', breed: 'tuxedo shorthair', age: 5, adoptable: true)
-    @pet_2 = @shelter_1.pets.create(name: 'Clawdia', breed: 'shorthair', age: 3, adoptable: true)
-    @pet_3 = @shelter_1.pets.create(name: 'Ann', breed: 'ragdoll', age: 3, adoptable: false)
+    @shelter_1 = Shelter.create!(name: 'Max Fund', city: 'Denver', foster_program: true, rank:4)
+    @pet_1 = @shelter_1.pets.create!(name: 'Francine', breed: 'dog', age: 1, adoptable: true)
+    @pet_2 = @shelter_1.pets.create!(name: 'Joey', breed: 'dog', age: 3, adoptable: true)
+    @pet_3 = @shelter_1.pets.create!(name: 'Mr. Dog', breed: 'cat', age: 10, adoptable: false)
+
   end
 
   describe 'class methods' do
     describe '#search' do
       it 'returns partial matches' do
-        expect(Pet.search("Claw")).to eq([@pet_2])
+        expect(Pet.search("Joey")).to eq([@pet_2])
       end
     end
 

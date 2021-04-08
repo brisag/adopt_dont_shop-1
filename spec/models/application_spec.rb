@@ -34,8 +34,9 @@ describe Application, type: :model do
     it {should validate_presence_of :zip_code}
   end
 
+
   describe 'instance methods' do
-    it '@street_address' do
+    it '#street_address' do
       street_address = "#{@applicant1.address} #{@applicant1.city}, #{@applicant1.state}. #{@applicant1.zip_code}"
 
       expect(@applicant1.street_address).to eq(street_address)
