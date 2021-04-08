@@ -19,4 +19,9 @@ class Pet < ApplicationRecord
     save
   end
 
+  def self.action_required
+    joins(pet_applications: :application)
+    .where("applications.status = 'Pending'")
+    .where("pet_applications.status = 'Pending'")
+  end
 end

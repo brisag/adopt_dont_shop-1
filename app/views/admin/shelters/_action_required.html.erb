@@ -1,0 +1,6 @@
+<% @shelter.pets.action_required.each do |pet| %>
+<p><%= pet.name %>
+  <% pet.pending_applications.each do |application| %>
+    <%= link_to "Go to Application", "/admin/applications/#{application.id}" %></p>
+  <% end %>
+<% end %>

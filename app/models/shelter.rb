@@ -59,4 +59,5 @@ class Shelter < ApplicationRecord
   def adopted_pet_count
     pets.where(adoptable: false).count
   end
+
 end
