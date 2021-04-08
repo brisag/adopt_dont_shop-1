@@ -43,4 +43,8 @@ class Shelter < ApplicationRecord
     .where(applications: {status: "Pending"})
     .order(:name)
   end
+
+  def self.shelter_with_name_and_address(id)
+    find_by_sql "select name, city as address from shelters where id = #{id};"
+  end
 end
