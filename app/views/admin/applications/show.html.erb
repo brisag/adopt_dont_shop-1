@@ -1,25 +1,28 @@
-<h1>Application</h1>
 <section id="admin-applicant-<%= @application.id %>">
-<h4>Status: <%= @application.status %></h4>
-<h4>Applicant name: <%= @application.name %></h4>
-<p>Applicant address: <br>
-  <%= "#{@application.address}" %><br>
-  <%= "#{@application.city}, #{@application.state} #{@application.zip_code}" %></p>
+  <h1><%= @application.name %></h1>
+  <h3>Status</h3> <%= @application.status %><br>
+  <h3>Address:</h3> <%= @application.street_address %><br>
+  <h3>Adopt Request Description: </h3> <%= @application.description %><br>
+  <h3>Pets:</h3><br>
 
-<%='display:none' if @application.status=="In Progress"%>
-  <h4>Why I would make a good home for this pet or pets:</h4>
+<section style='<%='display:none' if @application.status=="In Progress"%>'>
+  <p>Why I would make a good home for this pet or pets:</p>
   <p><%= @application.description %></p>
+</section>
 
 
-  <h3>Requested Pet(s)</h3>
+<section id="pet_applications">
+  <h3>Pets</h3>
   <ul><% @application.pet_applications.each do |pet_application| %>
-    <section id="pet-<%= pet_application.pet_id %>">
-      <%= link_to pet_application.pet_name, pet_path(pet_application.pet_id) %>
-      <% if pet_application.application_status == "Pending"%>
-        <%= pet_application.application_status %>
-          <%= button_to "Approve", admin_application_path(@application, pet: pet_application.pet_id, application_status: :approve), method: :patch %>
-          <%= button_to "Reject", admin_application_path(@application, pet: pet_application.pet_id, application_status: :reject), method: :patch %>
-      <% end %>
-    </section>
+    <li id='pet-<%= pet_application.pet_id %>'>
+      <%= link_to pet_application.pet.name, pet_path(pet_application.pet_id) %>
+      <% if pet_application.status == "Pending"%>
+        <%= pet_application.status %>
+          <%= button_to "Approve Pet", admin_application_path(@application, pet: pet_application.pet_id, status: :approve), method: :patch %>
+          <%= button_to "Reject Pet", admin_application_path(@application, pet: pet_application.pet_id, status: :reject), method: :patch %>
+      <% elsif !pet_application.approvable? %>
+        <span>This pet has been approved for adoption by another applicant</span>
+        <%= button_to "Reject Pet", admin_application_path(@application, pet: pet_application.pet_id, status: :reject), method: :patch %>
+      <% end %></li>
   <% end %></ul>
 </section>
