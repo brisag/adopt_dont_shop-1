@@ -15,23 +15,26 @@ Rails.application.routes.draw do
   get '/pets/:id/edit', to: 'pets#edit'
   patch '/pets/:id', to: 'pets#update'
   delete '/pets/:id', to: 'pets#destroy'
-
-  # applicants
-  # get '/applications/new', to: 'applications#new'
-  # post '/applications', to: 'applications#create'
-  # get '/applications/:id', to: 'applications#show'
-  # get '/applications/:id', to: 'applications#show'
-  # patch '/applications/:id', to: 'applications#update'
-
+  #
+  # # applicants
+  # # get '/applications/new', to: 'applications#new'
+  # # post '/applications', to: 'applications#create'
+  # # get '/applications/:id', to: 'applications#show'
+  # # get '/applications/:id', to: 'applications#show'
+  # # patch '/applications/:id', to: 'applications#update'
+  #
   resources :applications
-  resources :pet_applications, only: [:create]
 
+  resources :applications do
+    resources :pets, controller: "pet_application", only: [:create, :update]
+  end
+
+  resources :pet_applications, only: [:create]
+  #
   namespace :admin do
     resources :shelters
     resources :applications
   end
-
-
 
 
 
@@ -56,4 +59,5 @@ Rails.application.routes.draw do
   get '/veterinary_offices/:veterinary_office_id/veterinarians', to: 'veterinary_offices#veterinarians'
   get '/veterinary_offices/:veterinary_office_id/veterinarians/new', to: 'veterinarians#new'
   post '/veterinary_offices/:veterinary_office_id/veterinarians', to: 'veterinarians#create'
+
 end
