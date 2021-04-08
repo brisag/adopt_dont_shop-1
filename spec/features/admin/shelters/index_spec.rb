@@ -49,5 +49,12 @@ RSpec.describe 'As a visitor' do
         expect(@shelter_2.name).to appear_before(@shelter_1.name)
       end
     end
+
+    it "I see ever shelter name link is that takes you to admin shelter show page" do
+      within("#shelter-#{@shelter_1.id}") do
+        click_link("#{@shelter_1.name}")
+      end
+      expect(current_path).to eq("/admin/shelters/#{@shelter_1.id}")
+    end
   end
 end
