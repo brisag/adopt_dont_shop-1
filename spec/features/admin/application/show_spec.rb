@@ -64,5 +64,159 @@ RSpec.describe 'As a visitor' do
         end
       end
     end
+
+    describe 'I visit the admin application show page for one of the applications' do
+      it 'I approve the pet for that application and I see buttons to approve or reject on the other application' do
+        visit "/admin/applications/#{@applicant1.id}"
+
+        within("#admin-applicant-#{@applicant1.id}") do
+          within("#pet-#{@pet1.id}") do
+            click_button('Approve')
+          end
+        end
+
+        visit "/admin/applications/#{@applicant2.id}"
+
+        @applicant2.pets.each do |pet|
+          within("#pet-#{pet.id}") do
+            expect(page).to have_button('Approve')
+            expect(page).to have_button('Reject')
+          end
+        end
+      end
+
+      it 'I reject the pet for that application' do
+        visit "/admin/applications/#{@applicant1.id}"
+
+        within("#admin-applicant-#{@applicant1.id}") do
+          within("#pet-#{@pet1.id}") do
+            click_button('Reject')
+          end
+        end
+
+        visit "/admin/applications/#{@applicant2.id}"
+
+        within("#admin-applicant-#{@applicant2.id}") do
+          expect(page).to have_button('Approve')
+          expect(page).to have_button('Reject')
+        end
+      end
+    end
+
+    describe 'When I approve all pets for an application' do
+      it 'I see the applications status has changed to "Accepted" on the application show page' do
+        visit "/admin/applications/#{@applicant2.id}"
+
+        within("#admin-applicant-#{@applicant2.id}") do
+          within("#pet-#{@pet1.id}") do
+            click_button('Approve')
+          end
+          expect(page).to have_content('Accepted')
+        end
+      end
+    end
+
+    describe 'When I reject one pet for an application' do
+      it 'I see the applications status has changed to "Accepted" on the application show page' do
+        visit "/admin/applications/#{@applicant2.id}"
+
+        within("#admin-applicant-#{@applicant2.id}") do
+          within("#pet-#{@pet1.id}") do
+            click_button('Reject')
+          end
+          expect(page).to have_content('Rejected')
+        end
+      end
+    end
+
+    describe 'When application is accepted and I visit the show pages for those pets' do
+      it 'I see that those pets are no longer "adoptable"' do
+        visit "/admin/applications/#{@applicant1.id}"
+
+        within("#admin-applicant-#{@applicant1.id}") do
+          within("#pet-#{@pet1.id}") do
+            click_button('Approve')
+          end
+          within("#pet-#{@pet2.id}") do
+            click_button('Approve')
+          end
+        end
+
+        @applicant1.pets.each do |pet|
+          visit "/pets/#{pet.id}"
+          expect(page).to have_content('Adoption Status: false')
+          # expect(pet.adoptable?).to be_falsy
+        end
+      end
+    end
+
+    describe 'When application is rejected and I visit the show pages for those pets' do
+      it 'I see that those pets are still "adoptable"' do
+        visit "/admin/applications/#{@applicant1.id}"
+
+        within("#admin-applicant-#{@applicant1.id}") do
+          within("#pet-#{@pet1.id}") do
+            click_button('Reject')
+          end
+          within("#pet-#{@pet2.id}") do
+            click_button('Reject')
+          end
+        end
+
+        @applicant1.pets.each do |pet|
+          visit "/pets/#{pet.id}"
+          expect(page).to have_content('Adoption Status: true')
+          expect(pet.adoptable).to be_truthy
+        end
+      end
+    end
+
+
+    describe 'When a pet has an "Approved" application on them' do
+      describe 'I visit the admin application show page for the "Pending" application' do
+        it 'I see a message that this pet has been approved for adoption' do
+          visit "/admin/applications/#{@applicant1.id}"
+
+          within("#admin-applicant-#{@applicant1.id}") do
+            within("#pet-#{@pet1.id}") do
+              click_button('Approve')
+            end
+            within("#pet-#{@pet2.id}") do
+              click_button('Approve')
+            end
+          end
+
+          visit "/admin/applications/#{@applicant2.id}"
+
+          within("#admin-applicant-#{@applicant2.id}") do
+            within("#pet-#{@pet1.id}") do
+              expect(page).to have_content('No longer adoptable.')
+              expect(page).not_to have_button('Approve')
+            end
+          end
+        end
+
+        it 'I do see a button to reject them' do
+          visit "/admin/applications/#{@applicant1.id}"
+
+          within("#admin-applicant-#{@applicant1.id}") do
+            within("#pet-#{@pet1.id}") do
+              click_button('Approve')
+            end
+            within("#pet-#{@pet2.id}") do
+              click_button('Approve')
+            end
+          end
+
+          visit "/admin/applications/#{@applicant2.id}"
+
+          within("#admin-applicant-#{@applicant2.id}") do
+            within("#pet-#{@pet1.id}") do
+              expect(page).to have_button('Reject')
+            end
+          end
+        end
+      end
+    end
   end
 end
