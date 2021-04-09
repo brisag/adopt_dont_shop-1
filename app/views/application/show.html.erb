@@ -1,39 +1,19 @@
 <section id="application-<%= @application.id %>">
-  <h1><%= @application.name %></h1>
-  <p><h4>Address:</h4>   <%= "#{@application.address}" %><br>
-  <%= "#{@application.city}, #{@application.state} #{@application.zip_code}" %></h4></p>
-  <p><h4>Adoption Request Description</h4> <%= @application.description %></p>
-  <p><h4>Application Status</h4> <%= @application.status %></p>
-  <p><% @application.pets.each do |pet| %></p>
-  <%= link_to "#{pet.name}", "/pets/#{pet.id}" %>
-<% end %>
+  <%= render './layouts/shared/application_show' %>
+  <h3>Pets:</h3><br>
+  <%= render partial: "show_pets", locals: {application: @application} %>
 </section>
 
-
-  <% if @application.status == "In Progress" %>
+<% if @application.status = "In Progress"%>
   <section class="add-pet-app">
-    <hr><h3>Add a Pet to this Application</h3>
-    <%= form_with url: "/applications/#{@application.id}", method: :get, local: true do |form| %>
-      <%= form.text_field :search %>
-      <%= form.submit "Search" %>
-      <% end %>
-    <% end %>
+  <%= render partial: "add_pets", locals: {application_id: @application.id} %>
 
-    <% if @pets %>
-      <% @pets.each do |pet| %>
-        <%= pet.name %>
-        <%= button_to("Adopt this Pet", "/pet_applications", method: :post, params: {pet_id: pet.id, application_id: @application.id}) %>
-      <% end %>
-    <% end %>
-  </section>
+  <% if @pets %>
+  <%= render partial: "adopt_pets", locals: {pets: @pets, application_id: @application.id} %>
+  <% end %>
+</section>
 
-  <% if !@application.pets.empty? %>
-  <section class="submit-app">
-    <%= form_with url: "/applications/#{@application.id}", method: :patch, local: true do |form| %>
-      <%= form.label 'I make a good owner for these pet(s) because:' %>
-      <p><%= form.text_area :description %></p>
-      <%= form.hidden_field :status, value: 'Pending' %>
-      <%= form.submit "Submit Application" %>
-    <% end %>
-  </section>
+<% if !@application.pets.empty? %>
+<%= render partial: "submit", locals: {application_id: @application.id} %>
+  <% end %>
 <% end %>

@@ -1,0 +1,22 @@
+<section id="admin-applicant-<%= @application.id %>">
+  <%= render './layouts/shared/application_show' %>
+
+  <p>Why I would make a good home for this pet or pets:</p>
+  <p><%= @application.description %></p>
+
+
+  <h3>Pets</h3>
+  <ul><% @application.pet_applications.each do |pet_application| %>
+    <section id='pet-<%= pet_application.pet_id %>'>
+      <%= link_to pet_application.pet.name, pet_path(pet_application.pet_id) %>
+      <% if pet_application.status == "Pending"%>
+        <%= pet_application.status %>
+          <%= button_to "Approve Pet", admin_application_path(@application, pet: pet_application.pet_id, status: :approve), method: :patch %>
+          <%= button_to "Reject Pet", admin_application_path(@application, pet: pet_application.pet_id, status: :reject), method: :patch %>
+
+      <% elsif !pet_application.approvable? %>
+        <span>This pet has been approved for adoption by another applicant</span>
+        <%= button_to "Reject Pet", admin_application_path(@application, pet: pet_application.pet_id, status: :reject), method: :patch %>
+      <% end %></section>
+  <% end %></ul>
+</section>

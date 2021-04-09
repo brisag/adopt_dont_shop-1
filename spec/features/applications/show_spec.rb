@@ -15,13 +15,12 @@ RSpec.describe 'As a visitor' do
       within("#application-#{@applicant1.id}") do
         expect(page).to have_content(@applicant1.name)
         expect(page).to have_content(@applicant1.address)
-        # expect(page).to have_content(@applicant1.description)
         expect(page).to have_content('In Progress')
       end
     end
 
     it "I see a section and search that says add pet to this application" do
-      expect(page).to have_content('Add a Pet to this Application')
+      expect(page).to have_content('Add a Pet(s) to this Application')
 
 
       within(".add-pet-app") do

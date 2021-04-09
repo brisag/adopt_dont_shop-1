@@ -7,6 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 @shelter1 = Shelter.create!(name: 'Max Fund', city: 'Denver', foster_program: true, rank:4)
+@shelter1 = Shelter.create!(name: 'Max Fund', city: 'Denver', foster_program: true, rank:4)
 @shelter2 = Shelter.create!(name: 'Dumb Friends', city: 'Boulder', foster_program: true, rank:5)
 @shelter3 = Shelter.create!(name: 'Animal Rescue', city: 'Fort Collins', foster_program: true, rank:4)
 
@@ -23,3 +24,25 @@ PetApplication.create!(pet: @pet1, application: @applicant1)
 PetApplication.create!(pet: @pet1, application: @applicant2)
 PetApplication.create!(pet: @pet2, application: @applicant1)
 PetApplication.create!(pet: @pet2, application: @applicant2)
+
+
+#
+# PetApplication.destroy_all
+# Application.destroy_all
+# Pet.destroy_all
+# Shelter.destroy_all
+#
+# # FactoryBot.create_list(:shelter, 3)
+#
+# Shelter.all.each do |shelter|
+#   5.times do
+#     FactoryBot.create(:pet, shelter: shelter)
+#   end
+# end
+#
+# 3.times do
+#   FactoryBot.create(:application, pets: Pet.all.sample(3), status: "Pending")
+#   FactoryBot.create(:application, pets: Pet.all.sample(2), status: "Pending")
+#   FactoryBot.create(:application, pets: [Pet.all.sample], status: "Pending")
+#   FactoryBot.create(:application)
+# end

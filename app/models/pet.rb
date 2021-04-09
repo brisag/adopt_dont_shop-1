@@ -5,6 +5,7 @@ class Pet < ApplicationRecord
   has_many :pet_applications
   has_many :applications, through: :pet_applications
 
+
   def shelter_name
     shelter.name
   end
@@ -13,7 +14,14 @@ class Pet < ApplicationRecord
     where(adoptable: true)
   end
 
-  # def self.search_by_name(search)
-  #   where("lower(name) LIKE ?", "%#{search.downcase}%").where(adoptable: true)
-  # end
+  def approve_adoption
+    self[:adoptable] = false
+    save
+  end
+
+  def self.action_required
+    joins(pet_applications: :application)
+    .where("applications.status = 'Pending'")
+    .where("pet_applications.status = 'Pending'")
+  end
 end

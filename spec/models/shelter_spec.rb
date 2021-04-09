@@ -13,7 +13,7 @@ RSpec.describe Shelter, type: :model do
   end
 
   before(:each) do
-    @shelter_1 = Shelter.create(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9)
+    @shelter_1 = Shelter.create(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: true, rank: 9)
     @shelter_2 = Shelter.create(name: 'RGV animal shelter', city: 'Harlingen, TX', foster_program: false, rank: 5)
     @shelter_3 = Shelter.create(name: 'Fancy pets of Colorado', city: 'Denver, CO', foster_program: true, rank: 10)
 
@@ -21,9 +21,39 @@ RSpec.describe Shelter, type: :model do
     @pet_2 = @shelter_1.pets.create(name: 'Clawdia', breed: 'shorthair', age: 3, adoptable: true)
     @pet_3 = @shelter_3.pets.create(name: 'Lucille Bald', breed: 'sphynx', age: 8, adoptable: true)
     @pet_4 = @shelter_1.pets.create(name: 'Ann', breed: 'ragdoll', age: 5, adoptable: true)
+
+    @applicant1 = Application.create!(name: 'Brisa', address: '123 10th ave', city: 'Denver', state: 'CO', zip_code: 80205, description: "i need cuddly pets", status: "Pending")
+    @applicant2 = Application.create!(name: 'John', address: '321 Blake st', city: 'Denver', state: 'CO', zip_code: 80204, description: "i need cute pets", status: "Approved")
+    @applicant3 = Application.create!(name: 'Max', address: '1000 Broadway st', city: 'Eerie', state: 'CO', zip_code: 80041, description: "i need funny pets", status: "Pending")
+    @applicant4 = Application.create!(name: 'Xotchil', address: '1610 wewatta wy', city: 'Berthoud', state: 'CO', zip_code: 80491, description: "i need smart pets", status: "Approved")
+
+    PetApplication.create!(pet: @pet_1, application: @applicant1)
+    PetApplication.create!(pet: @pet_3, application: @applicant2)
+    PetApplication.create!(pet: @pet_4, application: @applicant1)
+    PetApplication.create!(pet: @pet_2, application: @applicant2)
   end
 
   describe 'class methods' do
+    describe "::by_reverse_alphabetical" do
+      it 'returns shelters in reverse alphabetical' do
+        expect(Shelter.desc_by_name.to_a).to eq([@shelter_2, @shelter_3, @shelter_1])
+      end
+    end
+
+    describe "::shelter_with_name_and_address" do
+      it 'returns only the shelter name and address' do
+        shelter = Shelter.shelter_with_name_and_address(@shelter_1.id)
+
+        expect(shelter[:name]).to eq(@shelter_1.name)
+      end
+    end
+
+    describe "::pending_shelters" do
+        it 'find if pet has any approved applications' do
+          expect(Shelter.pending_applications.to_a).to eq([@shelter_1])
+      end
+    end
+
     describe '#search' do
       it 'returns partial matches' do
         expect(Shelter.search("Fancy")).to eq([@shelter_3])
@@ -39,6 +69,17 @@ RSpec.describe Shelter, type: :model do
     describe '#order_by_number_of_pets' do
       it 'orders the shelters by number of pets they have, descending' do
         expect(Shelter.order_by_number_of_pets).to eq([@shelter_1, @shelter_3, @shelter_2])
+      end
+    end
+
+    describe '#pending_applications' do
+      it 'returns all shelters with a pending application and in alphabetical order' do
+        shelters = Shelter.pending_applications
+        expected = [@shelter_1]
+
+        expect(shelters).to eq(expected)
+        expect(shelters).not_to include(@shelter_2)
+        expect(shelters).not_to include(@shelter_3)
       end
     end
   end
@@ -66,6 +107,24 @@ RSpec.describe Shelter, type: :model do
       it 'returns the number of pets at the given shelter' do
         expect(@shelter_1.pet_count).to eq(3)
       end
+    end
+
+    it 'returns average age of all adoptable pets' do
+      average_age = @shelter_1.average_age
+
+      expect(average_age).to eq(4.0)
+    end
+
+    it 'returns count of all adoptable pets' do
+      pet_count = @shelter_1.adoptable_pet_count
+
+      expect(pet_count).to eq(2)
+    end
+
+    it 'returns count of all adopted pets' do
+      pet_count = @shelter_1.adopted_pet_count
+
+      expect(pet_count).to eq(1)
     end
   end
 end

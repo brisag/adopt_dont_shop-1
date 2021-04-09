@@ -16,6 +16,8 @@ RSpec.describe 'As a visitor' do
       new_id = Application.last.id
       expect(current_path).to eq("/applications/#{new_id}")
 
+      # save_and_open_page
+
       within("#application-#{new_id}") do
         expect(page).to have_content('Bobby')
         expect(page).to have_content(Application.last.address)

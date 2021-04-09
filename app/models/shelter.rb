@@ -7,6 +7,9 @@ class Shelter < ApplicationRecord
   has_many :pet_applications, through: :pets
   has_many :applications, through: :pet_applications
 
+  delegate :action_required, to: :pets, prefix: true
+
+
   def self.order_by_recently_created
     order(created_at: :desc)
   end
@@ -39,9 +42,26 @@ class Shelter < ApplicationRecord
   end
 
   def self.pending_applications
-    # joins(pets: :applications)
     joins(pets: [{pet_applications: :application}])
     .where(applications: {status: "Pending"})
     .order(:name)
+    .distinct
   end
+
+  def self.shelter_with_name_and_address(id)
+    find_by_sql("SELECT name, city FROM shelters WHERE id = #{id}").first
+  end
+
+  def average_age
+    pets.where(adoptable: true).average(:age).to_f
+  end
+
+  def adoptable_pet_count
+    pets.where(adoptable: true).count
+  end
+
+  def adopted_pet_count
+    pets.where(adoptable: false).count
+  end
+
 end
