@@ -1,19 +1,15 @@
-<h2><%= @shelter.name %></h2>
-Location: <%= @shelter.address %></br>
+<h2><%= @shelter_information.name %></h2>
+Location: <%= @shelter_information.city %></br>
 
-<section id="section-stats">
-  <h3>Statistics:</h3>
-  <p>Average Age of All Adoptable Pets: <%= @shelter.average_age %></p>
-  <p>Count of Adoptable Pets: <%= @shelter.adopted_pet_count %>
-  <p>Count of Adopted Pets: <%= @shelter.adopted_pet_count %>
+<section id="statistics">
+  <h3>Statistics</h3>
+  <%= render partial: "statistics" %>
 </section>
 
-<section id="section-action-required">
+<section id='action_required'>
   <h3>Action Required</h3>
-  <% @shelter.pets.action_required.each do |pet| %>
-  <p><%= pet.name %>
-    <% pet.pending_applications.each do |application| %>
-      <%= link_to "Go to Application", "/admin/applications/#{application.id}" %></p>
+  <ul><% @shelter.pets_action_required.each do |pet| %>
+        <p><%= pet.name %>
+      <%= link_to "Go to Application", "/admin/applications/#{application.pet}" %></p>
     <% end %>
-  <% end %>
 </section>

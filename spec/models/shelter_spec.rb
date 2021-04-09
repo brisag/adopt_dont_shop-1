@@ -42,7 +42,7 @@ RSpec.describe Shelter, type: :model do
 
     describe "::shelter_with_name_and_address" do
       it 'returns only the shelter name and address' do
-        shelter = Shelter.shelter_with_name_and_address(@shelter_1.id).first
+        shelter = Shelter.shelter_with_name_and_address(@shelter_1.id)
 
         expect(shelter[:name]).to eq(@shelter_1.name)
       end

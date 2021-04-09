@@ -34,13 +34,13 @@ RSpec.describe 'As a visitor' do
 
   it 'I see a section for statistics' do
 
-    within(".section-stats") do
+    within(".statistics") do
       expect(page).to have_content('Statistics:')
     end
   end
 
   it 'I see the average age of all adoptable pets for that shelter' do
-    within("#section-stats") do
+    within("#statistics") do
       expect(page).to have_content(@shelter2.average_age)
     end
   end
@@ -48,26 +48,26 @@ RSpec.describe 'As a visitor' do
   it 'I see the number of pets at that shelter that are adoptable' do
     # save_and_open_page
 
-    within("#section-stats") do
+    within("#statistics") do
       expect(page).to have_content(@shelter2.adoptable_pet_count)
     end
   end
 
   it 'I see the number of pets that have been adopted from that shelter' do
-    within("#section-stats") do
+    within("#statistics") do
       expect(page).to have_content(@shelter2.adopted_pet_count)
     end
   end
 
   it "I see a section title 'Action Required' with all apps not marked approved or rejected" do
-    within(".section-action-required") do
+    within(".action_required") do
       expect(page).to have_content('Action Required')
     end
   end
 
   it " I see a link to the admin application show page where I can accept or reject the pet" do
 
-    within(".section-action-required") do
+    within(".action_required") do
       expect(page).to have_content(@pet1.name)
       expect(page).not_to have_content(@pet2.name)
       expect(page).to have_link('Go to Application')

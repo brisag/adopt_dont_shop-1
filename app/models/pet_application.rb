@@ -5,19 +5,20 @@ class PetApplication < ApplicationRecord
 
   # enum status: [:approved, :rejected]
 
-  def reject
-    self[:status] = "Reject"
-    save
-  end
+  # after_update :status_update
+    def reject
+      self[:status] = "Reject"
+      save
+    end
 
-  def approve
-    self[:status] = "Approve"
-    save
-  end
+    def approve
+      self[:status] = "Approve"
+      save
+    end
 
 
   def approvable?
-    pet.adoptable && approved_apps(id, pet.id)
+    pet.adoptable && !approved_apps(id, pet.id)
     # pet.adoptable && separately_approved(id, pet.id)
 
   end

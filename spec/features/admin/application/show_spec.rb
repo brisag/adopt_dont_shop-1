@@ -118,7 +118,7 @@ RSpec.describe 'As a visitor' do
           within("#pet-#{@pet2.id}") do
             click_button('Approve')
           end
-          expect(page).to have_content('Accepted')
+          expect(page).to have_content('Approve')
         end
       end
     end
@@ -197,7 +197,7 @@ RSpec.describe 'As a visitor' do
 
           within("#admin-applicant-#{@applicant2.id}") do
             within("#pet-#{@pet1.id}") do
-              expect(page).to have_content('No longer adoptable.')
+              expect(page).to have_content('This pet has been approved for adoption by another applicant')
               expect(page).not_to have_button('Approve')
             end
           end
