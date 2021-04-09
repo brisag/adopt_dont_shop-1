@@ -34,8 +34,8 @@ RSpec.describe 'As a visitor' do
 
   it 'I see a section for statistics' do
 
-    within(".statistics") do
-      expect(page).to have_content('Statistics:')
+    within("#statistics") do
+      expect(page).to have_content('Statistics')
     end
   end
 
@@ -60,14 +60,14 @@ RSpec.describe 'As a visitor' do
   end
 
   it "I see a section title 'Action Required' with all apps not marked approved or rejected" do
-    within(".action_required") do
+    within("#action_required") do
       expect(page).to have_content('Action Required')
     end
   end
 
   it " I see a link to the admin application show page where I can accept or reject the pet" do
 
-    within(".action_required") do
+    within("#action_required") do
       expect(page).to have_content(@pet1.name)
       expect(page).not_to have_content(@pet2.name)
       expect(page).to have_link('Go to Application')
