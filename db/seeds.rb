@@ -30,7 +30,6 @@ PetApplication.create!(pet: @pet2, application: @applicant2)
 # PetApplication.destroy_all
 # Application.destroy_all
 # Pet.destroy_all
-# Shelter.destroy_all
 #
 # # FactoryBot.create_list(:shelter, 3)
 #

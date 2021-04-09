@@ -116,15 +116,24 @@ RSpec.describe Shelter, type: :model do
     end
 
     it 'returns count of all adoptable pets' do
-      pet_count = @shelter_1.adoptable_pet_count
+      pet_count = @shelter_1.adoptable_count
 
       expect(pet_count).to eq(2)
     end
 
     it 'returns count of all adopted pets' do
-      pet_count = @shelter_1.adopted_pet_count
+      pet_count = @shelter_1.count_adopted
 
       expect(pet_count).to eq(1)
+    end
+
+    it 'returns all pets that hat have a pending application and have not been approved or rejected' do
+      pets = @shelter_1.action_required_pets
+      expected = [@pet_1, @pet_4]
+      not_here = [@pet_2]
+
+      expect(pets).to eq(expected)
+      expect(pets).not_to be_in(not_here)
     end
   end
 end
