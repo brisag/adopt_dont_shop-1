@@ -23,5 +23,11 @@ class Pet < ApplicationRecord
     joins(pet_applications: :application)
     .where("applications.status = 'Pending'")
     .where("pet_applications.status = 'Pending'")
+    .distinct
   end
+
+  def applications_pending
+    applications.where("applications.status = 'Pending'")
+  end
+
 end

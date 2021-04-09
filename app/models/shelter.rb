@@ -64,4 +64,10 @@ class Shelter < ApplicationRecord
     pets.where(adoptable: false).count
   end
 
+  def action_required_pets
+    pets
+    .joins(:pet_applications)
+    .joins(:applications)
+    .where("applications.status = 'Pending'")
+  end
 end
