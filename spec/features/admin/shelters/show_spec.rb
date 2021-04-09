@@ -49,13 +49,13 @@ RSpec.describe 'As a visitor' do
     # save_and_open_page
 
     within("#statistics") do
-      expect(page).to have_content(@shelter2.adoptable_pet_count)
+      expect(page).to have_content(@shelter2.adoptable_count)
     end
   end
 
   it 'I see the number of pets that have been adopted from that shelter' do
     within("#statistics") do
-      expect(page).to have_content(@shelter2.adopted_pet_count)
+      expect(page).to have_content(@shelter2.count_adopted)
     end
   end
 
