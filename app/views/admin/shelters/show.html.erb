@@ -8,8 +8,9 @@ Location: <%= @shelter_information.city %></br>
 
 <section id='action_required'>
   <h3>Action Required</h3>
-  <ul><% @shelter.pets_action_required.each do |pet| %>
-        <p><%= pet.name %>
-      <%= link_to "Go to Application", "/admin/applications/#{application.pet}" %></p>
+  <% @shelter.action_required_pets.each do |pet| %>
+  <p><%= pet.name %>
+    <% pet.applications_pending.each do |application| %>
+      <%= link_to "Go to Application", "/admin/applications/#{application.id}" %></p>
     <% end %>
-</section>
+  <% end %>
